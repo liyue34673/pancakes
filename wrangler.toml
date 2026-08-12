@@ -1,0 +1,8 @@
+name = "hector-yui-wedding"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-05-01"
+
+# RSVP 用的 KV 存储（远程；用 wrangler kv 命令查看时要加 --remote）
+[[kv_namespaces]]
+binding = "RSVP"
+id = "e6f27ca2308d43b886edec3804cc0229"

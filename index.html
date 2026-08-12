@@ -25,8 +25,8 @@
 <style>
 /* self-hosted, subset fonts (no external CDN — loads fine in mainland China) */
 @font-face{font-family:"Space Mono";font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/SpaceMono-Regular.woff2) format("woff2")}
-@font-face{font-family:"Noto Serif SC";font-style:normal;font-weight:200 900;font-display:swap;src:url(assets/fonts/NotoSerifSC-subset.woff2) format("woff2")}
-@font-face{font-family:"Noto Sans SC";font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/NotoSansSC-subset.woff2) format("woff2")}
+@font-face{font-family:"Noto Serif SC";font-style:normal;font-weight:200 900;font-display:swap;src:url(assets/fonts/NotoSerifSC-subset.woff2?v=2) format("woff2")}
+@font-face{font-family:"Noto Sans SC";font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/NotoSansSC-subset.woff2?v=2) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:300 700;font-display:swap;src:url(assets/fonts/Cormorant-Roman.woff2) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300 700;font-display:swap;src:url(assets/fonts/Cormorant-Italic.woff2) format("woff2")}
 
@@ -313,12 +313,13 @@ body.locked{overflow:hidden;height:100vh}
 .enter-cover .ec-rule{width:54px;height:1px;background:var(--sage-soft);margin:24px 0 18px}
 .enter-cover .ec-date{font-family:"Space Mono",var(--serif-cn);letter-spacing:2px;font-size:14.5px;color:var(--ink)}
 .enter-cover .ec-place{font-family:"Space Mono",var(--serif-cn);font-size:12px;letter-spacing:1.5px;color:var(--ink-soft);margin-top:6px}
-.enter-cover .ec-tap{margin-top:46px;display:flex;flex-direction:column;align-items:center;gap:11px}
-.enter-cover .ec-ico{width:46px;height:46px;border-radius:50%;border:1px solid var(--sage-soft);color:var(--sage-deep);
-  display:flex;align-items:center;justify-content:center;animation:ecpulse 2.2s infinite}
-.enter-cover .ec-ico svg{width:20px;height:20px}
-.enter-cover .ec-tap span{font-family:"Space Mono",var(--serif-cn);font-style:normal;letter-spacing:2px;font-size:11.5px;color:var(--sage)}
-@keyframes ecpulse{0%{box-shadow:0 0 0 0 rgba(156,90,87,.35)}70%{box-shadow:0 0 0 14px rgba(156,90,87,0)}100%{box-shadow:0 0 0 0 rgba(156,90,87,0)}}
+.enter-cover .ec-tap{margin-top:38px;display:flex;flex-direction:column;align-items:center;gap:13px;cursor:pointer;animation:ecbounce 1.7s ease-in-out infinite}
+.enter-cover .ec-ico{width:62px;height:62px;border-radius:50%;border:2px solid var(--sage-deep);background:rgba(156,90,87,.10);color:var(--sage-deep);
+  display:flex;align-items:center;justify-content:center;animation:ecpulse 1.8s infinite}
+.enter-cover .ec-ico svg{width:27px;height:27px}
+.enter-cover .ec-tap span{font-family:"Space Mono",var(--serif-cn);font-style:normal;letter-spacing:2px;font-size:13px;font-weight:500;color:var(--sage-deep);background:rgba(156,90,87,.10);padding:6px 15px;border-radius:999px}
+@keyframes ecpulse{0%{box-shadow:0 0 0 0 rgba(156,90,87,.45)}70%{box-shadow:0 0 0 22px rgba(156,90,87,0)}100%{box-shadow:0 0 0 0 rgba(156,90,87,0)}}
+@keyframes ecbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
 
 /* 婚礼当天流程: 全部字体小一号 */
 #timeline .stitle{font-size:26px}
@@ -336,6 +337,19 @@ body.locked{overflow:hidden;height:100vh}
 #explore .rlabel span{font-size:11px}
 #explore .rchip{font-size:12.5px}
 #explore .rdesc{font-size:11.5px}
+/* RSVP */
+.rsvp{padding:70px 0 76px;text-align:center}
+.rsvp .rsvp-eyebrow{font-family:var(--serif-en);font-style:italic;letter-spacing:4px;font-size:16px;color:var(--sage);opacity:.9}
+.rsvp .rsvp-title{font-family:"Space Mono",var(--serif-cn);font-weight:400;font-size:clamp(22px,5.4vw,30px);letter-spacing:2px;color:var(--ink);margin:12px 0 26px}
+.rsvp-form{display:flex;flex-direction:column;gap:12px;max-width:340px;margin:0 auto;padding:0 24px}
+.rsvp-in{font-family:inherit;font-size:15px;color:var(--ink);background:rgba(255,255,255,.55);border:1px solid var(--sage-soft);border-radius:12px;padding:13px 15px;outline:none;transition:border-color .2s}
+.rsvp-in:focus{border-color:var(--sage-deep)}
+.rsvp-in::placeholder{color:var(--ink-faint)}
+.rsvp-btn{margin-top:6px;font-family:var(--serif-cn);letter-spacing:5px;font-size:15px;color:#fff;background:var(--sage-deep);border:none;border-radius:12px;padding:14px;cursor:pointer;transition:opacity .2s}
+.rsvp-btn:active{opacity:.82}
+.rsvp-btn[disabled]{opacity:.55;cursor:default}
+.rsvp-msg{min-height:20px;margin-top:15px;font-size:13.5px;letter-spacing:1px;color:var(--sage-deep)}
+.rsvp-contact{display:inline-block;margin-top:18px;font-family:var(--serif-en);letter-spacing:3px;font-size:14px;color:var(--sage-deep);border-bottom:1px solid var(--sage-soft);padding-bottom:3px;text-decoration:none}
 </style>
 </head>
 <body>
@@ -350,7 +364,7 @@ body.locked{overflow:hidden;height:100vh}
   </div>
   <div class="ec-rule"></div>
   <div class="ec-date">2026.10.06 · 星期二</div>
-  <div class="ec-place">宁波 · 国际会议中心</div>
+  <div class="ec-place">宁波 · 国际会议中心B区</div>
   <div class="ec-tap">
     <span class="ec-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V6a2 2 0 0 1 4 0v5"/><path d="M13 7a2 2 0 0 1 4 0v6"/><path d="M17 9a2 2 0 0 1 4 0v5a7 7 0 0 1-7 7h-2a6.98 6.98 0 0 1-5.5-2.7l-2.1-3.4a2 2 0 0 1 3.3-2.2L9 15"/></svg></span>
     <span>轻触进入 · Tap to Enter</span>
@@ -382,7 +396,7 @@ body.locked{overflow:hidden;height:100vh}
     </div>
     <div class="poster-bottom">
       <div class="date">2026.10.06 · 星期二</div>
-      <div class="place">宁波 · 国际会议中心</div>
+      <div class="place">宁波 · 国际会议中心B区</div>
     </div>
   </div>
   <div class="scrolldown reveal d2"><span>SCROLL</span><span class="line"></span></div>
@@ -447,15 +461,15 @@ body.locked{overflow:hidden;height:100vh}
         <div class="body">
           <div class="rt">地铁 · 4 号线直达<span class="meta">最省心</span></div>
           <p class="note">乘<span class="hl">地铁 4 号线</span>至「国际会议中心站」下车，即到酒店所在的国际会议中心片区，出站短驳即可。国庆假期这也是避堵首选。</p>
-          <a class="amap" href="https://uri.amap.com/search?keyword=%E5%AE%81%E6%B3%A2%E5%9B%BD%E9%99%85%E4%BC%9A%E8%AE%AE%E4%B8%AD%E5%BF%83B%E5%8C%BA" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg> 高德导航 · 国际会议中心</a>
+          <a class="amap" href="https://uri.amap.com/search?keyword=%E5%AE%81%E6%B3%A2%E5%B8%82%E9%84%9E%E5%B7%9E%E5%8C%BA%E4%B8%9C%E9%92%B1%E6%B9%96%E9%95%87%E4%BC%9A%E5%8D%9A%E8%B7%AF%20101%20%E5%8F%B7" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg> 高德导航 · 国际会议中心</a>
         </div>
       </div>
       <div class="troute">
         <div class="tico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" ><path d="M5 13l1.5-5A2 2 0 0 1 8.4 7h7.2a2 2 0 0 1 1.9 1.3L19 13"/><path d="M4 13h16v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H7v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><circle cx="7.5" cy="15.5" r="0.6"/><circle cx="16.5" cy="15.5" r="0.6"/></svg></div>
         <div class="body">
           <div class="rt">自驾 · Self-driving<span class="meta">免费代客泊车</span></div>
-          <p class="note">导航直接搜「宁波国际会议中心B区」，地址会博路 101 号。酒店停车场约 ¥25/天，并提供免费代客泊车。</p>
-          <a class="amap" href="https://uri.amap.com/search?keyword=%E5%AE%81%E6%B3%A2%E5%9B%BD%E9%99%85%E4%BC%9A%E8%AE%AE%E4%B8%AD%E5%BF%83B%E5%8C%BA" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg> 高德导航 · 国际会议中心</a>
+          <p class="note">导航直接搜「宁波市鄞州区东钱湖镇会博路 101 号」，地址会博路 101 号。酒店停车场约 ¥25/天，并提供免费代客泊车。</p>
+          <a class="amap" href="https://uri.amap.com/search?keyword=%E5%AE%81%E6%B3%A2%E5%B8%82%E9%84%9E%E5%B7%9E%E5%8C%BA%E4%B8%9C%E9%92%B1%E6%B9%96%E9%95%87%E4%BC%9A%E5%8D%9A%E8%B7%AF%20101%20%E5%8F%B7" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg> 高德导航 · 国际会议中心</a>
         </div>
       </div>
     </div>
@@ -482,7 +496,7 @@ body.locked{overflow:hidden;height:100vh}
     <div class="keyinfo reveal d2">
       <p><b>📍 酒店地址：</b><span class="hl">宁波市鄞州区东钱湖镇会博路 101 号</span></p>
       <p><b>☎ 酒店前台：</b>0574-5678 6666</p>
-      <a class="amap" href="https://uri.amap.com/search?keyword=%E5%AE%81%E6%B3%A2%E5%9B%BD%E9%99%85%E4%BC%9A%E8%AE%AE%E4%B8%AD%E5%BF%83B%E5%8C%BA" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg> 高德导航 · 一键到店</a>
+      <a class="amap" href="https://uri.amap.com/search?keyword=%E5%AE%81%E6%B3%A2%E5%B8%82%E9%84%9E%E5%B7%9E%E5%8C%BA%E4%B8%9C%E9%92%B1%E6%B9%96%E9%95%87%E4%BC%9A%E5%8D%9A%E8%B7%AF%20101%20%E5%8F%B7" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg> 高德导航 · 一键到店</a>
     </div>
   </div>
 </section>
@@ -623,6 +637,22 @@ body.locked{overflow:hidden;height:100vh}
   </div>
 </section>
 
+<!-- ===== RSVP ===== -->
+<section class="rsvp" id="rsvp">
+  <div class="reveal">
+    <div class="rsvp-eyebrow">R.S.V.P</div>
+    <h3 class="rsvp-title">各位来宾请填写</h3>
+    <form id="rsvpForm" class="rsvp-form" novalidate>
+      <input class="rsvp-in" name="name" type="text" placeholder="姓名" autocomplete="name" maxlength="20" required>
+      <input class="rsvp-in" name="phone" type="tel" inputmode="numeric" placeholder="手机" autocomplete="tel" maxlength="11" required>
+      <input class="rsvp-in" name="count" type="number" inputmode="numeric" placeholder="人数（含本人）" min="1" max="30" required>
+      <button class="rsvp-btn" type="submit">提交</button>
+    </form>
+    <div class="rsvp-msg" id="rsvpMsg" role="status"></div>
+    <a class="rsvp-contact" href="tel:15657450071">联系我们</a>
+  </div>
+</section>
+
 <footer>
   <div class="fen">See you there</div>
   2026.10.06 · 宁波国际会议中心
@@ -670,14 +700,58 @@ GESTURES.forEach(ev=>window.addEventListener(ev,autoStart,{passive:true}));
 const enterCover=document.getElementById('enterCover');
 if(enterCover){
   document.body.classList.add('locked');
+  // gentle slow auto-scroll after entering — hints there's more below; any user input stops it
+  const AS_EVENTS=['wheel','touchstart','pointerdown','keydown'];
+  function startAutoScroll(){
+    let stopped=false, pos=window.scrollY||0, raf=0;
+    const SPEED=2.0; // px/frame
+    const stop=()=>{ if(stopped)return; stopped=true; cancelAnimationFrame(raf);
+      AS_EVENTS.forEach(ev=>window.removeEventListener(ev,stop)); };
+    AS_EVENTS.forEach(ev=>window.addEventListener(ev,stop,{passive:true}));
+    const step=()=>{ if(stopped)return;
+      pos+=SPEED; window.scrollTo(0,pos);
+      if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-2){stop();return;}
+      raf=requestAnimationFrame(step); };
+    raf=requestAnimationFrame(step);
+  }
+  function scheduleAutoScroll(){
+    let acted=false;
+    const cancel=()=>{acted=true;AS_EVENTS.forEach(ev=>window.removeEventListener(ev,cancel));};
+    AS_EVENTS.forEach(ev=>window.addEventListener(ev,cancel,{passive:true}));
+    setTimeout(()=>{AS_EVENTS.forEach(ev=>window.removeEventListener(ev,cancel));if(!acted)startAutoScroll();},1000);
+  }
   const enterSite=()=>{
     cleanupAuto();
     enterCover.classList.add('hide');
     document.body.classList.remove('locked');
     bgm.play().then(()=>music.classList.add('playing')).catch(()=>{});
     setTimeout(()=>{enterCover.style.display='none';},1200);
+    scheduleAutoScroll();
   };
   enterCover.addEventListener('click',enterSite,{once:true});
+}
+// RSVP submit -> Cloudflare Function (/api/rsvp)
+const rf=document.getElementById('rsvpForm');
+if(rf){
+  const msg=document.getElementById('rsvpMsg');
+  const btn=rf.querySelector('.rsvp-btn');
+  rf.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const fd=new FormData(rf);
+    const name=(fd.get('name')||'').toString().trim();
+    const phone=(fd.get('phone')||'').toString().trim();
+    const count=parseInt(fd.get('count'),10);
+    if(!name){msg.textContent='请填写姓名';return;}
+    if(!/^1[3-9]\d{9}$/.test(phone)){msg.textContent='请填写正确的 11 位手机号';return;}
+    if(!(count>=1&&count<=30)){msg.textContent='请填写人数';return;}
+    btn.disabled=true;msg.textContent='提交中…';
+    try{
+      const r=await fetch('/api/rsvp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,phone,count})});
+      const j=await r.json();
+      if(j&&j.ok){msg.textContent='提交成功，感谢您的回复 ♥';rf.reset();}
+      else{msg.textContent='提交失败，请重试或点“联系我们”';btn.disabled=false;}
+    }catch(err){msg.textContent='网络异常，请重试或点“联系我们”';btn.disabled=false;}
+  });
 }
 </script>
 </body>
