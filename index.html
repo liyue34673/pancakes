@@ -25,8 +25,8 @@
 <style>
 /* self-hosted, subset fonts (no external CDN — loads fine in mainland China) */
 @font-face{font-family:"Space Mono";font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/SpaceMono-Regular.woff2) format("woff2")}
-@font-face{font-family:"Noto Serif SC";font-style:normal;font-weight:200 900;font-display:swap;src:url(assets/fonts/NotoSerifSC-subset.woff2?v=2) format("woff2")}
-@font-face{font-family:"Noto Sans SC";font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/NotoSansSC-subset.woff2?v=2) format("woff2")}
+@font-face{font-family:"Noto Serif SC";font-style:normal;font-weight:200 900;font-display:swap;src:url(assets/fonts/NotoSerifSC-subset.woff2?v=3) format("woff2")}
+@font-face{font-family:"Noto Sans SC";font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/NotoSansSC-subset.woff2?v=3) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:300 700;font-display:swap;src:url(assets/fonts/Cormorant-Roman.woff2) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300 700;font-display:swap;src:url(assets/fonts/Cormorant-Italic.woff2) format("woff2")}
 
@@ -248,13 +248,32 @@ p{color:var(--ink-soft)}
 @media(max-width:420px){.foodgrid{column-gap:10px}}
 
 /* ============ 11. CLOSING ============ */
-.closing{min-height:92svh;display:flex;align-items:center;justify-content:center;text-align:center;
+.closing{position:relative;overflow:hidden;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;
   background-image:linear-gradient(rgba(58,44,34,.5),rgba(58,44,34,.62)),url(assets/img/img15.jpg);
-  background-size:cover;background-position:center;color:#F4F1E7;padding:80px 24px}
+  background-size:cover;background-position:center;color:#F4F1E7;padding:12svh 24px 0}
+.closing-inner{position:relative;z-index:3}
 .closing .ci{font-family:var(--serif-en);font-style:italic;letter-spacing:4px;font-size:18px;opacity:.9}
 .closing h2{font-family:var(--serif-cn);font-weight:400;font-size:clamp(26px,6vw,40px);letter-spacing:6px;margin:14px 0}
 .closing .cnames{font-family:var(--serif-en);letter-spacing:5px;font-size:20px;margin-top:20px;opacity:.95}
 .closing p{color:rgba(244,241,231,.85);font-size:14px;letter-spacing:2px;max-width:440px;margin:10px auto 0}
+/* 祝福墙 */
+.wish-stream{position:absolute;left:0;right:0;bottom:0;height:44%;overflow:hidden;z-index:1;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 16%,#000 84%,transparent)}
+.wish-track{display:flex;flex-direction:column;gap:9px;align-items:flex-end;padding:0 14px;animation:wishScroll 42s linear infinite}
+.wish-bubble{max-width:64vw;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:13px;letter-spacing:.5px;line-height:1.5;padding:6px 12px;border-radius:14px}
+@keyframes wishScroll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.wish-box{position:absolute;left:14px;bottom:16px;z-index:4;width:min(234px,66vw);text-align:left;
+  background:rgba(28,24,20,.08);border:1px solid rgba(255,255,255,.32);border-radius:16px;padding:12px 13px}
+.wish-box-t{color:#fff;font-family:var(--serif-cn);font-size:13.5px;letter-spacing:1px;margin-bottom:9px;opacity:.98;text-shadow:0 1px 3px rgba(0,0,0,.65)}
+.wish-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.wish-chip{font-family:var(--serif-cn);font-size:12px;color:#fff;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:4px 9px;cursor:pointer;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.wish-chip.emoji{font-size:14px;padding:3px 7px}
+.wish-input-row{display:flex;gap:6px}
+.wish-input{flex:1;min-width:0;font-family:var(--serif-cn);font-size:13px;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:8px 10px;outline:none}
+.wish-input::placeholder{color:rgba(255,255,255,.58)}
+.wish-send{font-family:var(--serif-cn);font-size:13px;letter-spacing:2px;color:#4a3a2c;background:#efe5d6;border:none;border-radius:10px;padding:8px 12px;cursor:pointer;white-space:nowrap}
+.wish-send:disabled{opacity:.6}
+.wish-msg{min-height:15px;margin-top:7px;font-size:11.5px;letter-spacing:.5px;color:rgba(255,255,255,.9);text-shadow:0 1px 2px rgba(0,0,0,.6)}
 
 /* ============ 12. MUSIC ============ */
 .music{position:fixed;right:20px;bottom:20px;z-index:60;width:50px;height:50px;border-radius:50%;
@@ -377,10 +396,10 @@ body.locked{overflow:hidden;height:100vh}
 <nav class="nav" id="nav">
   <a href="#cover">封面 <span>Home</span></a>
   <a href="#childhood">小时候 <span>Story</span></a>
-  <a href="#traffic">交通指南 <span>Getting Here</span></a>
-  <a href="#hotel">酒店 <span>Venue</span></a>
   <a href="#timeline">当天流程 <span>Schedule</span></a>
   <a href="#dress">着装建议 <span>Dress Code</span></a>
+  <a href="#traffic">交通指南 <span>Getting Here</span></a>
+  <a href="#hotel">酒店 <span>Venue</span></a>
   <a href="#nearby">周边景点 <span>Around</span></a>
   <a href="#explore">游玩推荐 <span>Explore</span></a>
   <a href="#food">美食推荐 <span>Eat</span></a>
@@ -421,9 +440,64 @@ body.locked{overflow:hidden;height:100vh}
         <figcaption><span>The Bride</span>新娘 · 李悦</figcaption>
       </figure>
     </div>
-    <p class="child-note reveal">从两个爱笑的小朋友，到走到一起的我们。</p>
+    <p class="child-note reveal">从两个爱笑的小朋友，到如今并肩而立的我们。<br><br><br>诚挚邀请各位亲朋好友来参加我们的婚礼，<br>见证这一场关于相遇、相爱与相伴的故事。</p>
   </div>
 </section>
+
+<!-- ===== 5. TIMELINE ===== -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">The Day</div>
+      <div class="stitle">婚礼当天流程</div>
+      <div class="srule"></div>
+    </div>
+
+    <div class="tgroup reveal">
+      <div class="tloc">🌿 知行厅户外草坪 · 游园会 <span>Garden Party</span></div>
+      <div class="timeline">
+        <div class="tnode reveal"><div class="tt">15:18</div><div class="te">签到 · 合影</div><div class="td">到场签到，与新人合影留念。</div></div>
+        <div class="tnode reveal"><div class="tt">15:18–17:00</div><div class="te">自由游园 · 互动</div><div class="td">我们备了茶歇与小游戏，愿你在草坪上享受一个惬意的午后。</div></div>
+      </div>
+    </div>
+
+    <div class="tgroup reveal">
+      <div class="tloc">🥂 知行 A 厅 · 仪式与晚宴 <span>Ceremony &amp; Dinner</span></div>
+      <div class="timeline">
+        <div class="tnode reveal"><div class="tt">17:28</div><div class="te">婚礼仪式</div><div class="td">请移步知行 A 厅并提前入座，一同见证这一刻。</div></div>
+        <div class="tnode reveal"><div class="tt">18:08</div><div class="te">晚宴开席</div><div class="td">仪式后正式开席，敬请慢用。</div></div>
+      </div>
+    </div>
+    <p class="reveal" style="font-size:12.5px;margin-top:22px;color:var(--ink-faint)">* 具体时间以当天实际情况为准，敬请留意现场引导。</p>
+  </div>
+</section>
+
+<!-- ===== 6. DRESS ===== -->
+<section id="dress">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">What to Wear</div>
+      <div class="stitle">着装建议</div>
+      <div class="srule"></div>
+    </div>
+    <div class="reveal" style="max-width:660px">
+      <span class="dchip">Semi-formal / Smart-casual · 微正式休闲</span>
+      <p style="font-size:13.5px">希望你穿得舒适、自在，也拍得好看～ 推荐柔和的<span class="hl">低饱和淡雅色系</span>：大地色、浅色或轻盈的莫兰迪色都很合适，与湖畔的氛围格外相衬。半正式或休闲度假风都可以，怎么自在怎么来，玩得开心就好～</p>
+      <div class="swatches">
+        <div class="sw" style="background:#A9B7C4"><span>Blue</span></div>
+        <div class="sw" style="background:#C7C0D8"><span style="color:#5b5a4f">Lilac</span></div>
+        <div class="sw" style="background:#E3C9C4"><span style="color:#5b5a4f">Blush</span></div>
+        <div class="sw" style="background:#8C9A82"><span>Sage</span></div>
+        <div class="sw" style="background:#D6C7AE"><span style="color:#5b5a4f">Oat</span></div>
+        <div class="sw" style="background:#EDE4D3"><span style="color:#5b5a4f">Ivory</span></div>
+      </div>
+    </div>
+    <img class="dress-illus reveal" src="assets/img/img01.png" alt="着装参考 · 男女宾客人像示意" loading="lazy">
+    <p class="dress-thanks reveal">非常感谢您的用心装扮，我们迫不及待想与您一起分享这个特别的日子！</p>
+    <div class="dress-ty reveal">Thank you</div>
+  </div>
+</section>
+
 
 <!-- ===== 2. TRAFFIC ===== -->
 <section id="traffic">
@@ -501,61 +575,6 @@ body.locked{overflow:hidden;height:100vh}
   </div>
 </section>
 
-<!-- ===== 5. TIMELINE ===== -->
-<section id="timeline">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">The Day</div>
-      <div class="stitle">婚礼当天流程</div>
-      <div class="srule"></div>
-    </div>
-
-    <div class="tgroup reveal">
-      <div class="tloc">🌿 知行厅户外草坪 · 游园会 <span>Garden Party</span></div>
-      <div class="timeline">
-        <div class="tnode reveal"><div class="tt">15:18</div><div class="te">签到 · 合影</div><div class="td">到场签到，与新人合影留念。</div></div>
-        <div class="tnode reveal"><div class="tt">15:18–17:00</div><div class="te">自由游园 · 互动</div><div class="td">我们备了茶歇与小游戏，愿你在草坪上享受一个惬意的午后。</div></div>
-      </div>
-    </div>
-
-    <div class="tgroup reveal">
-      <div class="tloc">🥂 知行 A 厅 · 仪式与晚宴 <span>Ceremony &amp; Dinner</span></div>
-      <div class="timeline">
-        <div class="tnode reveal"><div class="tt">17:28</div><div class="te">婚礼仪式</div><div class="td">请移步知行 A 厅并提前入座，一同见证这一刻。</div></div>
-        <div class="tnode reveal"><div class="tt">18:08</div><div class="te">晚宴开席</div><div class="td">仪式后正式开席，敬请慢用。</div></div>
-      </div>
-    </div>
-    <p class="reveal" style="font-size:12.5px;margin-top:22px;color:var(--ink-faint)">* 具体时间以当天实际情况为准，敬请留意现场引导。</p>
-  </div>
-</section>
-
-<!-- ===== 6. DRESS ===== -->
-<section id="dress">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">What to Wear</div>
-      <div class="stitle">着装建议</div>
-      <div class="srule"></div>
-    </div>
-    <div class="reveal" style="max-width:660px">
-      <span class="dchip">Semi-formal / Smart-casual · 微正式休闲</span>
-      <p style="font-size:13.5px">希望你穿得舒适、自在，也拍得好看～ 推荐柔和的<span class="hl">低饱和淡雅色系</span>：大地色、浅色或轻盈的莫兰迪色都很合适，与湖畔的氛围格外相衬。半正式或休闲度假风都可以，怎么自在怎么来，玩得开心就好～</p>
-      <div class="swatches">
-        <div class="sw" style="background:#A9B7C4"><span>Blue</span></div>
-        <div class="sw" style="background:#C7C0D8"><span style="color:#5b5a4f">Lilac</span></div>
-        <div class="sw" style="background:#E3C9C4"><span style="color:#5b5a4f">Blush</span></div>
-        <div class="sw" style="background:#8C9A82"><span>Sage</span></div>
-        <div class="sw" style="background:#D6C7AE"><span style="color:#5b5a4f">Oat</span></div>
-        <div class="sw" style="background:#EDE4D3"><span style="color:#5b5a4f">Ivory</span></div>
-      </div>
-    </div>
-    <img class="dress-illus reveal" src="assets/img/img01.png" alt="着装参考 · 男女宾客人像示意" loading="lazy">
-    <p class="dress-thanks reveal">非常感谢您的用心装扮，我们迫不及待想与您一起分享这个特别的日子！</p>
-    <div class="dress-ty reveal">Thank you</div>
-  </div>
-</section>
-
-
 <!-- ===== 8. NEARBY ===== -->
 <section id="nearby">
   <div class="wrap">
@@ -629,11 +648,21 @@ body.locked{overflow:hidden;height:100vh}
 
 <!-- ===== 11. CLOSING ===== -->
 <section class="closing" id="closing">
-  <div class="reveal">
+  <div class="closing-inner reveal">
     <div class="ci">With love &amp; gratitude</div>
     <h2>期待与你相见</h2>
     <p>谢谢你，愿意在这一天，陪我们一起。<br>你的到来，就是我们最好的礼物。</p>
     <div class="cnames">赵子豪 &amp; 李悦</div>
+  </div>
+  <div class="wish-stream" id="wishStream" aria-hidden="true"></div>
+  <div class="wish-box">
+    <div class="wish-box-t">写下你的祝福 ♥</div>
+    <div class="wish-chips" id="wishChips"></div>
+    <div class="wish-input-row">
+      <input id="wishInput" class="wish-input" type="text" maxlength="40" placeholder="送上一句祝福…" aria-label="祝福语">
+      <button id="wishSend" class="wish-send">送出</button>
+    </div>
+    <div class="wish-msg" id="wishMsg" role="status"></div>
   </div>
 </section>
 
@@ -644,7 +673,6 @@ body.locked{overflow:hidden;height:100vh}
     <h3 class="rsvp-title">各位来宾请填写</h3>
     <form id="rsvpForm" class="rsvp-form" novalidate>
       <input class="rsvp-in" name="name" type="text" placeholder="姓名" autocomplete="name" maxlength="20" required>
-      <input class="rsvp-in" name="phone" type="tel" inputmode="numeric" placeholder="手机" autocomplete="tel" maxlength="11" required>
       <input class="rsvp-in" name="count" type="number" inputmode="numeric" placeholder="人数（含本人）" min="1" max="30" required>
       <button class="rsvp-btn" type="submit">提交</button>
     </form>
@@ -739,20 +767,57 @@ if(rf){
     e.preventDefault();
     const fd=new FormData(rf);
     const name=(fd.get('name')||'').toString().trim();
-    const phone=(fd.get('phone')||'').toString().trim();
     const count=parseInt(fd.get('count'),10);
     if(!name){msg.textContent='请填写姓名';return;}
-    if(!/^1[3-9]\d{9}$/.test(phone)){msg.textContent='请填写正确的 11 位手机号';return;}
     if(!(count>=1&&count<=30)){msg.textContent='请填写人数';return;}
     btn.disabled=true;msg.textContent='提交中…';
     try{
-      const r=await fetch('/api/rsvp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,phone,count})});
+      const r=await fetch('/api/rsvp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,count})});
       const j=await r.json();
       if(j&&j.ok){msg.textContent='提交成功，感谢您的回复 ♥';rf.reset();}
       else{msg.textContent='提交失败，请重试或点“联系我们”';btn.disabled=false;}
     }catch(err){msg.textContent='网络异常，请重试或点“联系我们”';btn.disabled=false;}
   });
 }
+// 祝福墙
+(function(){
+  const stream=document.getElementById('wishStream');
+  const chipsEl=document.getElementById('wishChips');
+  const input=document.getElementById('wishInput');
+  const sendBtn=document.getElementById('wishSend');
+  const msg=document.getElementById('wishMsg');
+  if(!stream||!input) return;
+  const PRESET=['新婚快乐','百年好合','永结同心','白头偕老'];
+  const EMOJI=['🎉','❤️','💐','🥂','💍','🎊'];
+  const DEFAULTS=['新婚快乐！🎉','百年好合 ❤️','永结同心 💍','祝你们白头偕老','愿有情人终成眷属 🌷','甜甜蜜蜜一辈子 🍬','早生贵子 👶','幸福美满 🥂','愿你们的爱如东钱湖水长流','执子之手，与子偕老 ❤️'];
+  const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  PRESET.forEach(t=>{const b=document.createElement('button');b.type='button';b.className='wish-chip';b.textContent=t;b.addEventListener('click',()=>{input.value=t;input.focus();});chipsEl.appendChild(b);});
+  EMOJI.forEach(e=>{const b=document.createElement('button');b.type='button';b.className='wish-chip emoji';b.textContent=e;b.addEventListener('click',()=>{input.value=(input.value+e).slice(0,40);input.focus();});chipsEl.appendChild(b);});
+  function render(list){
+    const items=(list&&list.length)?list:DEFAULTS.map(t=>({text:t}));
+    const h=items.concat(items).map(i=>'<div class="wish-bubble">'+esc(i.text)+'</div>').join('');
+    stream.innerHTML='<div class="wish-track">'+h+'</div>';
+  }
+  let current=DEFAULTS.map(t=>({text:t}));
+  render(current);
+  fetch('/api/blessing').then(r=>r.json()).then(j=>{
+    const real=(j&&j.items)||[];
+    if(real.length){current=real.concat(DEFAULTS.map(t=>({text:t})));render(current);}
+  }).catch(()=>{});
+  function send(){
+    const text=input.value.trim();
+    if(!text){msg.textContent='写点什么吧 ♥';return;}
+    sendBtn.disabled=true;msg.textContent='送出中…';
+    fetch('/api/blessing',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text})})
+      .then(r=>r.json()).then(j=>{
+        if(j&&j.ok){msg.textContent='已送出，感谢你的祝福 ♥';current=[{text}].concat(current);render(current);input.value='';}
+        else{msg.textContent='送出失败，请重试';}
+        sendBtn.disabled=false;
+      }).catch(()=>{msg.textContent='网络异常，请重试';sendBtn.disabled=false;});
+  }
+  sendBtn.addEventListener('click',send);
+  input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();send();}});
+})();
 </script>
 </body>
 </html>
