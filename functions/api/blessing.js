@@ -13,10 +13,11 @@ export async function onRequestPost({ request, env }) {
     if (ct.includes('application/json')) d = await request.json();
     else d = Object.fromEntries(await request.formData());
     const text = (d.text || '').toString().replace(/\s+/g, ' ').trim().slice(0, 40);
+    const name = (d.name || '').toString().replace(/\s+/g, ' ').trim().slice(0, 16);
     if (!text) return json({ ok: false, error: 'empty' }, 400);
     const ts = new Date().toISOString();
     const key = 'wish:' + ts + ':' + Math.random().toString(36).slice(2, 7);
-    await env.RSVP.put(key, JSON.stringify({ text, ts }));
+    await env.RSVP.put(key, JSON.stringify({ text, name, ts }));
     return json({ ok: true });
   } catch (e) {
     return json({ ok: false, error: 'server' }, 500);
@@ -35,5 +36,5 @@ export async function onRequestGet({ env }) {
     cursor = res.list_complete ? null : res.cursor;
   } while (cursor);
   items.sort((a, b) => (a.ts < b.ts ? 1 : -1));
-  return json({ items: items.slice(0, 120).map(i => ({ text: i.text })) });
+  return json({ items: items.slice(0, 120).map(i => ({ text: i.text, name: i.name || '' })) });
 }

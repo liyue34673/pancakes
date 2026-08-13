@@ -25,8 +25,8 @@
 <style>
 /* self-hosted, subset fonts (no external CDN — loads fine in mainland China) */
 @font-face{font-family:"Space Mono";font-style:normal;font-weight:400;font-display:swap;src:url(assets/fonts/SpaceMono-Regular.woff2) format("woff2")}
-@font-face{font-family:"Noto Serif SC";font-style:normal;font-weight:200 900;font-display:swap;src:url(assets/fonts/NotoSerifSC-subset.woff2?v=3) format("woff2")}
-@font-face{font-family:"Noto Sans SC";font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/NotoSansSC-subset.woff2?v=3) format("woff2")}
+@font-face{font-family:"Noto Serif SC";font-style:normal;font-weight:200 900;font-display:swap;src:url(assets/fonts/NotoSerifSC-subset.woff2?v=6) format("woff2")}
+@font-face{font-family:"Noto Sans SC";font-style:normal;font-weight:100 900;font-display:swap;src:url(assets/fonts/NotoSansSC-subset.woff2?v=6) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:300 700;font-display:swap;src:url(assets/fonts/Cormorant-Roman.woff2) format("woff2")}
 @font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300 700;font-display:swap;src:url(assets/fonts/Cormorant-Italic.woff2) format("woff2")}
 
@@ -274,6 +274,8 @@ p{color:var(--ink-soft)}
 .wish-send{font-family:var(--serif-cn);font-size:13px;letter-spacing:2px;color:#4a3a2c;background:#efe5d6;border:none;border-radius:10px;padding:8px 12px;cursor:pointer;white-space:nowrap}
 .wish-send:disabled{opacity:.6}
 .wish-msg{min-height:15px;margin-top:7px;font-size:11.5px;letter-spacing:.5px;color:rgba(255,255,255,.9);text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.wish-name{margin-bottom:9px}
+.wish-by{opacity:.72;font-size:11px;margin-left:5px;white-space:nowrap}
 
 /* ============ 12. MUSIC ============ */
 .music{position:fixed;right:20px;bottom:20px;z-index:60;width:50px;height:50px;border-radius:50%;
@@ -657,6 +659,7 @@ body.locked{overflow:hidden;height:100vh}
   <div class="wish-stream" id="wishStream" aria-hidden="true"></div>
   <div class="wish-box">
     <div class="wish-box-t">写下你的祝福 ♥</div>
+    <input id="wishName" class="wish-input wish-name" type="text" maxlength="12" placeholder="你的名字（选填）" aria-label="名字" autocomplete="name">
     <div class="wish-chips" id="wishChips"></div>
     <div class="wish-input-row">
       <input id="wishInput" class="wish-input" type="text" maxlength="40" placeholder="送上一句祝福…" aria-label="祝福语">
@@ -774,7 +777,7 @@ if(rf){
     try{
       const r=await fetch('/api/rsvp',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name,count})});
       const j=await r.json();
-      if(j&&j.ok){msg.textContent='提交成功，感谢您的回复 ♥';rf.reset();}
+      if(j&&j.ok){try{localStorage.setItem('hyuiName',name)}catch(e){}msg.textContent='提交成功，感谢您的回复 ♥';rf.reset();}
       else{msg.textContent='提交失败，请重试或点“联系我们”';btn.disabled=false;}
     }catch(err){msg.textContent='网络异常，请重试或点“联系我们”';btn.disabled=false;}
   });
@@ -786,16 +789,19 @@ if(rf){
   const input=document.getElementById('wishInput');
   const sendBtn=document.getElementById('wishSend');
   const msg=document.getElementById('wishMsg');
+  const nameInput=document.getElementById('wishName');
   if(!stream||!input) return;
+  try{const sv=localStorage.getItem('hyuiName');if(sv&&nameInput)nameInput.value=sv;}catch(e){}
+  if(nameInput)nameInput.addEventListener('focus',()=>{if(!nameInput.value){try{const sv=localStorage.getItem('hyuiName');if(sv)nameInput.value=sv;}catch(e){}}});
   const PRESET=['新婚快乐','百年好合','永结同心','白头偕老'];
   const EMOJI=['🎉','❤️','💐','🥂','💍','🎊'];
-  const DEFAULTS=['新婚快乐！🎉','百年好合 ❤️','永结同心 💍','祝你们白头偕老','愿有情人终成眷属 🌷','甜甜蜜蜜一辈子 🍬','早生贵子 👶','幸福美满 🥂','愿你们的爱如东钱湖水长流','执子之手，与子偕老 ❤️'];
+  const DEFAULTS=['恭喜！！','百年好合，幸福美满～','新婚快乐，永远幸福 ❤️','祝你们甜甜蜜蜜～'];
   const esc=s=>(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   PRESET.forEach(t=>{const b=document.createElement('button');b.type='button';b.className='wish-chip';b.textContent=t;b.addEventListener('click',()=>{input.value=t;input.focus();});chipsEl.appendChild(b);});
   EMOJI.forEach(e=>{const b=document.createElement('button');b.type='button';b.className='wish-chip emoji';b.textContent=e;b.addEventListener('click',()=>{input.value=(input.value+e).slice(0,40);input.focus();});chipsEl.appendChild(b);});
   function render(list){
     const items=(list&&list.length)?list:DEFAULTS.map(t=>({text:t}));
-    const h=items.concat(items).map(i=>'<div class="wish-bubble">'+esc(i.text)+'</div>').join('');
+    const h=items.concat(items).map(i=>'<div class="wish-bubble">'+esc(i.text)+(i.name?'<span class="wish-by">—— '+esc(i.name)+'</span>':'')+'</div>').join('');
     stream.innerHTML='<div class="wish-track">'+h+'</div>';
   }
   let current=DEFAULTS.map(t=>({text:t}));
@@ -806,11 +812,12 @@ if(rf){
   }).catch(()=>{});
   function send(){
     const text=input.value.trim();
+    const name=((nameInput&&nameInput.value)||'').trim().slice(0,12);
     if(!text){msg.textContent='写点什么吧 ♥';return;}
     sendBtn.disabled=true;msg.textContent='送出中…';
-    fetch('/api/blessing',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text})})
+    fetch('/api/blessing',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text,name})})
       .then(r=>r.json()).then(j=>{
-        if(j&&j.ok){msg.textContent='已送出，感谢你的祝福 ♥';current=[{text}].concat(current);render(current);input.value='';}
+        if(j&&j.ok){msg.textContent='已送出，感谢你的祝福 ♥';if(name){try{localStorage.setItem('hyuiName',name)}catch(e){}}current=[{text,name}].concat(current);render(current);input.value='';}
         else{msg.textContent='送出失败，请重试';}
         sendBtn.disabled=false;
       }).catch(()=>{msg.textContent='网络异常，请重试';sendBtn.disabled=false;});
